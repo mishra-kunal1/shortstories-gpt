@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Generation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function(){
+    $('form').submit(function(event){
+        event.preventDefault();
+        var num_samples = $('#num_samples').val(); // Get the number of samples
+        $.ajax({
+            type: 'POST',
+            url: '/generate_text',
+            data: {prompt: $('#prompt').val(), num_samples: num_samples}, // Include num_samples in the data
+            success: function(response){
+                renderGeneratedStories(response); // Call the function to display stories
+            }
+        });
+    });
+});
+function renderGeneratedStories(response) {
+    const generatedTextDiv = $('#generated_text');
+    generatedTextDiv.empty(); // Clear existing content
+
+    const generatedStories = response.split('\n\n');
+    generatedStories.forEach((story, index) => {
+        const storyHeading = $('<h2>').text('Generated Story ' + (index + 1)); // Create heading for each story
+        const storyParagraph = $('<p>').html(story); // Create paragraph for each story, setting HTML content
+        generatedTextDiv.append(storyHeading).append(storyParagraph); // Append heading and paragraph to the div
+    });
+}
+
+      
+    </script>
+    
+</head>
+<body>
+    <h1>Enter Prompt:</h1>
+    <form>
+        <textarea name="prompt" id="prompt" rows="4" cols="50"></textarea><br>
+        <label for="num_samples">Number of Samples:</label>
+        <input type="number" id="num_samples" name="num_samples" value="1" min="1"><br> <!-- Add input for number of samples -->
+        <input type="submit" value="Generate Text">
+    </form>
+
+    <div id="generated_text"></div>
+
+</body>
+</html>
