@@ -23,23 +23,23 @@ torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
 device_type = 'cuda' if 'cuda' in device else 'cpu' # for later use in torch.autocast
 ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[dtype]
 ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=device_type, dtype=ptdtype)
-ckpt_path = os.path.join(out_dir, 'ckpt_100k.pt')
+#ckpt_path = os.path.join(out_dir, 'ckpt_100k.pt')
 
 
 # load the tokenizer
 enc = Tokenizer()
 app = Flask(__name__)
-checkpoint = torch.load(ckpt_path, map_location=device)
-gptconf = ModelArgs(**checkpoint['model_args'])
-model = Transformer(gptconf)
-state_dict = checkpoint['model']
-unwanted_prefix = '_orig_mod.'
-for k,v in list(state_dict.items()):
-        if k.startswith(unwanted_prefix):
-            state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
-model.load_state_dict(state_dict, strict=False)
-model.eval()
-model.to(device)
+# checkpoint = torch.load(ckpt_path, map_location=device)
+# gptconf = ModelArgs(**checkpoint['model_args'])
+# model = Transformer(gptconf)
+# state_dict = checkpoint['model']
+# unwanted_prefix = '_orig_mod.'
+# for k,v in list(state_dict.items()):
+#         if k.startswith(unwanted_prefix):
+#             state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
+# model.load_state_dict(state_dict, strict=False)
+# model.eval()
+# model.to(device)
 # Load your machine learning model
 #model = joblib.load('path/to/your/model.pkl')
 # Load your machine learning model
