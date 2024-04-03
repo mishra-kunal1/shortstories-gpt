@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import joblib
 import os
 from contextlib import nullcontext
 import torch
@@ -30,7 +29,6 @@ ckpt_path = os.path.join(out_dir, 'ckpt_100k.pt')
 # load the tokenizer
 enc = Tokenizer()
 app = Flask(__name__)
-cache = Cache(app)
 checkpoint = torch.load(ckpt_path, map_location=device)
 gptconf = ModelArgs(**checkpoint['model_args'])
 model = Transformer(gptconf)
