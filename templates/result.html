@@ -2,11 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generated Text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #generated-text-container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .generated-story {
+            border: 3px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: background-color 0.3s ease; /* Smooth transition for background color change */
+        }
+
+        #back-to-home {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Generated Text:</h1>
-    <p>{{ out }}</p>
-    <a href="/">Back to Home</a>
+    <div id="generated-text-container">
+        <h1>Generated Text</h1>
+        {% set ns = namespace(value=1)%}
+        {% for text in generated_texts %}
+            <div class="generated-story" id="generated-story-{{ns.Value }}">Generated Story {{ ns.value }} - {{ text }}</div>
+            {% set ns.value = ns.value + 1 %}
+        {% endfor %}
+        <a href="{{ url_for('index') }}" id="back-to-home">Back to Home</a>
+    </div>
+
+    <script>
+        // Simulate typing effect
+        function typeEffect(element, speed) {
+            var text = element.innerHTML;
+            element.innerHTML = "";
+
+            var i = 0;
+            var timer = setInterval(function () {
+                if (i < text.length) {
+                    element.append(text.charAt(i));
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, speed);
+        }
+
+        var stories = document.querySelectorAll('.generated-story');
+        var typingSpeed = 50; // Adjust typing speed here
+
+        stories.forEach(function (story, index) {
+            // Define light background colors
+            var colors = ['#FFEDED', '#DEEAD7', '#D7D1FF'];
+            // Assign background colors to each story
+            story.style.backgroundColor = colors[index % colors.length];
+            // Apply typing effect
+            typeEffect(story, typingSpeed);
+        });
+    </script>
 </body>
 </html>

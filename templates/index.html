@@ -1,50 +1,79 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <title>Text Generation</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-$(document).ready(function(){
-    $('form').submit(function(event){
-        event.preventDefault();
-        var num_samples = $('#num_samples').val(); // Get the number of samples
-        $.ajax({
-            type: 'POST',
-            url: '/generate_text',
-            data: {prompt: $('#prompt').val(), num_samples: num_samples}, // Include num_samples in the data
-            success: function(response){
-                renderGeneratedStories(response); // Call the function to display stories
-            }
-        });
-    });
-});
-function renderGeneratedStories(response) {
-    const generatedTextDiv = $('#generated_text');
-    generatedTextDiv.empty(); // Clear existing content
-
-    const generatedStories = response.split('\n\n');
-    generatedStories.forEach((story, index) => {
-        const storyHeading = $('<h2>').text('Generated Story ' + (index + 1)); // Create heading for each story
-        const storyParagraph = $('<p>').html(story); // Create paragraph for each story, setting HTML content
-        generatedTextDiv.append(storyHeading).append(storyParagraph); // Append heading and paragraph to the div
-    });
-}
-
-      
-    </script>
-    
 </head>
 <body>
-    <h1>Enter Prompt:</h1>
-    <form>
-        <textarea name="prompt" id="prompt" rows="4" cols="50"></textarea><br>
-        <label for="num_samples">Number of Samples:</label>
-        <input type="number" id="num_samples" name="num_samples" value="1" min="1"><br> <!-- Add input for number of samples -->
-        <input type="submit" value="Generate Text">
-    </form>
+   
+    <div style="display: flex; align-items: center; flex-direction: column;">
+        <h1 style="text-align: center; margin-bottom: 10px;font-size: 30px; font-weight: bold;">Tiny Tales GPT</h1>
+        <img src="{{ url_for('static', filename='title.jpg') }}" alt="Title Image" style="max-width: 250px; float: left; max-height: 250px;">
+        <div style="max-width: 1000px; text-align: center; margin: 0 auto; padding: 10px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <p style="font-size: 16px; line-height: 1.4; color: #333; margin-bottom: 5px;">Do you struggle to think of fun bedtime stories for kids? Maybe you can start a story, but finding the perfect ending is tough. <br> Introducing Tiny Tales GPT - Your effortless storytelling solution! Simply provide the beginning of your story, and watch as Tiny Tales GPT generates multiple captivating endings with just a tap.</p>
+            <p style="font-size: 16px; line-height: 1.4; color: #333;">Tiny Tales GPT is a 30 million parameter language model trained on 1 billion tokens from scratch. It is 33 times smaller than GPT 2 and can still capture grammar, punctuation, diversity, and reasoning capabilities.</p>
+        </div>
+    </div>
+    
+        <h2>Enter Prompt:</h2>
+        <div id="promptButtons" class="grid-container">
+                <button class="promptButton">Once upon a time, </button>
+                <button class="promptButton">Lily asked her mom, "Can I go to the park?" </button>
+            
+                <button class="promptButton">On a sunny day , Tim was walking with his dog</button>
+                <button class="promptButton">Alex got scared when he saw</button>
+        </div>
+          
+        </div>
+        <form form id="myForm" action="{{ url_for('generate_text') }}" method="post">
+            <textarea id="prompt" name="prompt" rows="5" cols="120" style="overflow-y: scroll;" required placeholder="Jim was a curious kid. One day"></textarea><br><br>
+            <label for="num_samples">Number of Stories:</label>
+            <input type="number" id="num_samples" name="num_samples" value="1" min="1" max="3"><br>
+            <label for="max_tokens">Max Tokens:</label>
+            <input type="range" id="max_tokens" name="max_tokens" min="100" max="250" step="50" value="200" oninput="updateMaxTokensValue(this.value)">
+            <span id="max_tokens_value">200</span><br>
+            <input type="submit" value="Generate" class="custom-button" id="generateButton" onclick="disableButtonAndSubmitForm()">
+            <p id="generationStatus"></p>
+            <p id="tokenStatus"></p>
+        </form>
+        <footer style="margin-top: 20px; text-align: center; background-color: lightgoldenrodyellow;">
+            <a href="https://www.linkedin.com/in/kunalmishra1/" target="_blank">
+                <img src="{{ url_for('static', filename='linkedin.png') }}" alt="LinkedIn Logo" style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 15px;">
+            </a>
+            <a href="mailto:kunalmishra78@gmail.com">
+                <img src="{{ url_for('static', filename='gmail.png') }}" alt="Gmail Logo" style="width: 45px; height: 45px;margin-bottom: 15px;margin-right: 10px;">
+            </a>
+        </footer>
+        <script>
+            document.querySelectorAll('.promptButton').forEach(function(button) {
+            button.addEventListener('click', function() {
+                document.getElementById('prompt').value = this.textContent;
+            });
+            });
+            function disableButtonAndSubmitForm() {
+        if(document.getElementById("prompt").value == '') {
+            alert("Please enter a prompt before generating the story.");
+            return;
+        }
+        
+        // Disable the button to prevent multiple submissions
+        document.getElementById("generateButton").disabled = true;
+        var max_tokens = parseInt(document.getElementById("max_tokens").value);
+        document.getElementById("tokenStatus").textContent = "Generating "+max_tokens+" tokens for each story...";
+        var num_samples = parseInt(document.getElementById("num_samples").value);
+        var time = (max_tokens/20)+1;
+        document.getElementById("generationStatus").textContent = "Generating your story in " + (time * num_samples) + " seconds (approx)...";
+        
+        document.getElementById("myForm").submit();
+      
+    }
+    function updateMaxTokensValue(value) {
+        document.getElementById("max_tokens_value").textContent = value;
+    }
 
-    <div id="generated_text"></div>
-
+        </script>
 </body>
 </html>

@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+.heading {
+    font-size: 36px;
+    text-shadow: 0px 0px 1px silver;
+}
+textarea, input[type="number"], input[type="submit"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
+
+.generated-story {
+    border: 5px solid #333; /* border color */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px; /* rounded corners */
+    font-family: "Arial", sans-serif; /* font family */
+    font-size: 16px; /* font size */
+    line-height: 1.5; /* line height */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* shadow effect */
+}
+.generated-text-container {
+    border: 2px solid #333; /* border color */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px; /* rounded corners */
+    font-family: "Arial", sans-serif; /* font family */
+    font-size: 16px; /* font size */
+    line-height: 1.5; /* line height */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* shadow effect */
+}
+
+
+/* Additional styles can be added as per your requirements */
+
+    /* Style for the button */
+.custom-button {
+        background-color: white;
+        border: 2px solid #4CAF50; /* Green border */
+        color: black; /* White text color */
+        padding: 15px 32px; /* Padding */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Display as inline-block */
+        font-size: 18px; /* Font size */
+        margin: 8px 2px; /* Margin */
+        transition-duration: 0.4s; /* Transition duration */
+        cursor: pointer; /* Cursor pointer */
+        border-radius: 12px; /* Border radius */
+    }
+
+    /* Hover effect */
+.custom-button:hover {
+        background-color: #D9FCD5 /* Darker green background on hover */
+        
+    }
+.custom-button:disabled,
+    button[disabled]{
+      border: 1px solid #999999;
+      background-color: #cccccc;
+      color: #666666;
+    }
+
+    #clearButton {
+        font-size: 15px; /* Font size */
+        margin: 6px; /* Margin */
+        transition-duration: 0.4s; /* Transition duration */
+        cursor: pointer; /* Cursor pointer */
+        border-radius: 5px; /* Border radius */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+    }
+
+    /* Hover effect */
+    #clearButton:hover {
+        background-color: #d32f2f; /* Darker red background on hover */
+    }
+    #num_samples {
+        text-align: center; /* Center text */
+        width: 30px; /* Adjust width as needed */
+        font-size: 15;
+    }
+  
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+
+
+    }
+    
+    .footer-container {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    footer a {
+        margin: 0 10px; /* Adjust the margin as needed */
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, auto); /* 2 columns */
+        grid-gap: 2px; /* Gap between grid items */
+        justify-content: center;
+    }
+    
+    .promptButton {
+        /* Style your buttons as needed */
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        margin:3px;
+    }
